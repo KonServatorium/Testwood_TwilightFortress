@@ -327,6 +327,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		charflaw = GLOB.character_flaws[charflaw]
 		charflaw = new charflaw()
 
+/datum/preferences/proc/_load_rost(S)
+	var/height_type
+	S["height"]			>> height_type
+	if(height_type)
+		height = new height_type()
+	else
+		height = pick(GLOB.character_height)
+		height = GLOB.character_height[height]
+		height = new height()
+
 /datum/preferences/proc/_load_appearence(S)
 	S["real_name"]			>> real_name
 	S["gender"]				>> gender
@@ -544,6 +554,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["randomise"]		, randomise)
 	WRITE_FILE(S["species"]			, pref_species.name)
 	WRITE_FILE(S["charflaw"]			, charflaw.type)
+	WRITE_FILE(S["height"]			, charflaw.type)
 	WRITE_FILE(S["feature_mcolor"]					, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]					, features["mcolor2"])
 	WRITE_FILE(S["feature_mcolor3"]					, features["mcolor3"])

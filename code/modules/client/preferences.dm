@@ -141,6 +141,8 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	var/domhand = 2
 	var/datum/charflaw/charflaw
 
+	var/datum/height
+
 	var/family = FAMILY_NONE
 
 	var/crt = FALSE
@@ -340,6 +342,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 //			dat += "<b><a href='?_src_=prefs;preference=name;task=random'>Random Name</A></b><BR>"
 			dat += "<b>Flaw:</b> <a href='?_src_=prefs;preference=charflaw;task=input'>[charflaw]</a><BR>"
+			dat += "<b>Height:</b> <a href='?_src_=prefs;preference=height;task=input'>[height]</a><BR>"
 			var/datum/faith/selected_faith = GLOB.faithlist[selected_patron?.associated_faith]
 			dat += "<b>Faith:</b> <a href='?_src_=prefs;preference=faith;task=input'>[selected_faith?.name || "FUCK!"]</a><BR>"
 			dat += "<b>Patron:</b> <a href='?_src_=prefs;preference=patron;task=input'>[selected_patron?.name || "FUCK!"]</a><BR>"
@@ -1509,7 +1512,16 @@ Slots: [job.spawn_positions]</span>
 						if(charflaw.desc)
 							to_chat(user, "<span class='info'>[charflaw.desc]</span>")
 
-
+				if("height")
+					var/list/rostik = GLOB.character_height.Copy()
+					var/result = input(user, "Select your height", "Roguetown") as null|anything in rostik
+					if(result)
+						result = rostik[result]
+						var/datum/height/H = new result()
+						height = H
+						to_chat(user, "<span class='notice'>New height: [H]</span>")
+						if(height.desc)
+							to_chat(user, "<span class='info'>[height.desc]</span>")
 
 				if("mutant_color")
 					var/new_mutantcolor = color_pick_sanitized_lumi(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
